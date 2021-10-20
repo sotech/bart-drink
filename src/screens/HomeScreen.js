@@ -1,12 +1,14 @@
 import React from 'react';
 import Screens from '../Screens';
-import {Text,View,StyleSheet, Button, TouchableOpacity} from 'react-native';
+import {Text,View,StyleSheet, TouchableOpacity,Alert} from 'react-native';
+import { Entypo } from '@expo/vector-icons';
 
 function HomeScreen({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.mainTitleContainer}>
         <Text style={styles.mainTitleText}>BartDrinks</Text>
+        <Entypo name="drink" size={35} color="black" />
       </View>
       <View style={styles.menuContainer}>
         <TouchableOpacity
@@ -15,7 +17,8 @@ function HomeScreen({navigation}) {
           <Text style={styles.buttonText}>Recetas</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate(Screens.INGREDIENTES)}
+          //onPress={() => navigation.navigate(Screens.INGREDIENTES)}
+          onPress={() => Alert.alert('Error','En construccion!')}
           style={styles.button}>
           <Text style={styles.buttonText}>Ingredientes</Text>
         </TouchableOpacity>
@@ -41,10 +44,12 @@ const styles = StyleSheet.create({
     textAlign:'center'
   },
   mainTitleText:{
-    fontSize:35
+    fontSize:35,
+    marginRight:15,
   },
   mainTitleContainer:{
     flex:1,
+    flexDirection:'row',
     justifyContent:'center',
     alignItems:'center'
   },
