@@ -7,7 +7,7 @@ function HomeScreen({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.mainTitleContainer}>
-        <Text style={styles.mainTitleText}>BartDrinks</Text>
+        <Text style={styles.mainTitleText}>Bartelper!</Text>
         <Entypo name="drink" size={35} color="black" />
       </View>
       <View style={styles.menuContainer}>
