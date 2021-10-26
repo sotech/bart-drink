@@ -1,4 +1,5 @@
 export default{
   HOME:'Home',
-  RECETAS:'Recetas'
+  RECETAS:'Recetas',
+  RECETA:'Receta'
 }
