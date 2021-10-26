@@ -16,12 +16,7 @@ function HomeScreen({navigation}) {
           style={styles.button}>
           <Text style={styles.buttonText}>Recetas</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          //onPress={() => navigation.navigate(Screens.INGREDIENTES)}
-          onPress={() => Alert.alert('Error','En construccion!')}
-          style={styles.button}>
-          <Text style={styles.buttonText}>Ingredientes</Text>
-        </TouchableOpacity>
+        
       </View>
     </View>
   );
