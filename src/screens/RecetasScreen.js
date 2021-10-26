@@ -2,10 +2,9 @@ import React,{useState,useEffect} from 'react';
 import { Text, View, TextInput, TouchableOpacity, ScrollView, StyleSheet} from 'react-native';
 import Receta from '../components/Receta';
 import RecetasAPI from '../utils/RecetasAPI';
+import Screens from '../utils/Screens';
 
-const RecetasScreen = () => {
-  const [nombre, setNombre] = useState('');
-  const [descripcion, setDescripcion] = useState('');
+const RecetasScreen = ({navigation}) => {
   const [recetas,setRecetas] = useState([]);
 
   useEffect(()=>{
@@ -13,90 +12,53 @@ const RecetasScreen = () => {
   },[])
 
   const PopulateRecetas = async() => {
-    const recetasData = await RecetasAPI.GetRecetas();
+    //const recetasData = await RecetasAPI.GetRecetas();
+    const recetasData = [
+      {
+        titulo:'Cuba libre',
+        ingredientes:['Coca-Cola','Ron'],
+        descripcion:'Mezclar 3/1 Coca con Ron'
+      },{
+        titulo: 'Coctel azul',
+        ingredientes: ['Curacao azul', 'Vodka', 'Sprite'],
+        descripcion: '1oz curacao, media oz vodka, llenar con sprite'
+      }
+    ]
     setRecetas(recetasData);
   }
 
-  const handleNombreChange = (v) => {
-    setNombre(v);
-  }
-
-  const handleDescripcionChange = (v) => {
-    setDescripcion(v);
-  }
-
-  const handleShowData = async() => {
-    const recetas = await RecetasAPI.GetRecetas();
-    console.log(recetas);
-  }
-
-  const AddRecipeToList = (recetaNueva) =>{
+  const addRecipeToList = (recetaNueva) =>{
     setRecetas(prevRecetas =>{
       prevRecetas.push(recetaNueva);
       return prevRecetas;
     })
   }
-  const handleSubmit = async() => {
-    AddRecipeToList({nombre,descripcion});
-    await RecetasAPI.SaveRecetas(recetas);
-    console.log('Data saved!');
-    ResetFields();
-  }
 
-  const ResetFields = () => {
-    setNombre('');
-    setDescripcion('');
-  }
-
-  const handleClearData = async() =>{
-    await RecetasAPI.ClearRecetas();
-    PopulateRecetas();
+  const handleAgregarReceta = async() => {
+    navigation.navigate(Screens.RECETA)
   }
 
   return(
     <View style={styles.container}>
-      <ScrollView
-      style={styles.recetasContainer}>
-        {recetas.map(receta => {
-          return <Receta key={receta.nombre} nombre={receta.nombre} descripcion={receta.descripcion} />
-        })}
-      </ScrollView>
+      <View style={styles.recetasContainer}>
+        <ScrollView style={styles.recetasScrollContainer}>
+          {recetas.map(r => {
+            return <Receta 
+            key={r.titulo} 
+            titulo={r.titulo} 
+            ingredientes={r.ingredientes}
+            descripcion={r.descripcion}
+            />
+          })}
+        </ScrollView>
+      </View>
       <View style={styles.menuContainer}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={nombre}
-            style={styles.input}
-            placeholder={'Nombre'}
-            onChangeText = {handleNombreChange}
-          />
-          <TextInput
-            value={descripcion}
-            style={styles.input}
-            multiline={true}
-            placeholder={'Descripcion'}
-            onChangeText={handleDescripcionChange}
-          />
-        </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={handleSubmit}  
+            onPress={handleAgregarReceta}  
             style={styles.button}
           >
-            <Text style={styles.buttonText}>Guardar</Text>
-          </TouchableOpacity>
-          {/*
-          <TouchableOpacity
-            onPress={handleShowData}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Mostrar</Text>
-          </TouchableOpacity>
-          */}
-          <TouchableOpacity
-            onPress={handleClearData}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Limpiar</Text>
+            <Text style={styles.buttonText}>Agregar Receta</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -119,10 +81,14 @@ const styles = StyleSheet.create({
   menuContainer:{
     flex:1,
     justifyContent:'center',
+    marginHorizontal: '5%',
   },
   recetasContainer:{
-    flex:1,
+    flex:2,
     marginHorizontal:'5%',
+  },
+  recetasScrollContainer:{
+    flex:1,
   },
   inputContainer:{
     marginVertical:20,
