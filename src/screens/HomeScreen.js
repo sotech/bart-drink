@@ -1,5 +1,5 @@
 import React from 'react';
-import Screens from '../Screens';
+import Screens from '../utils/Screens';
 import {Text,View,StyleSheet, TouchableOpacity,Alert} from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 
