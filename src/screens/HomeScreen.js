@@ -16,8 +16,11 @@ function HomeScreen({navigation}) {
           style={styles.button}>
           <Text style={styles.buttonText}>Recetas</Text>
         </TouchableOpacity>
-        
       </View>
+      <View>
+       <Text style={styles.versionText}>Version 1.1</Text>
+      </View>
+      
     </View>
   );
 }
@@ -52,6 +55,10 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:'flex-start',
     alignItems:'center'
+  },
+  versionText:{
+    fontSize:20,
+    textAlign:'center'
   }
 });
 export default HomeScreen;
