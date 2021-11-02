@@ -43,13 +43,13 @@ const GuardarReceta = async(receta) =>{
  *Limpia la memoria del telefono relacionada a esta aplicacion
  *
  */
-const ClearDatabase = async() =>{
+const ClearRecetas = async() =>{
   await AsyncStorage.clear();
 }
 
 export default {
-  GetRecetas,
-  SaveRecetas,
+  ObtenerRecetas,
+  GuardarRecetas,
   GuardarReceta,
-  ClearDatabase
+  ClearRecetas
 };
