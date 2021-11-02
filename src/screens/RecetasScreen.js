@@ -18,7 +18,9 @@ const RecetasScreen = ({navigation}) => {
         titulo:'Cuba libre',
         ingredientes:['Coca-Cola','Ron'],
         descripcion:'Mezclar 3/1 Coca con Ron'
-      },{
+      },
+      
+      {
         titulo: 'Coctel azul',
         ingredientes: ['Curacao azul', 'Vodka', 'Sprite'],
         descripcion: '1oz curacao, media oz vodka, llenar con sprite'

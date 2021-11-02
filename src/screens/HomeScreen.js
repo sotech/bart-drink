@@ -2,8 +2,11 @@ import React from 'react';
 import Screens from '../utils/Screens';
 import {Text,View,StyleSheet, TouchableOpacity,Alert} from 'react-native';
 import { Entypo } from '@expo/vector-icons';
+import Utilities from '../utils/Utilities'
 
 function HomeScreen({navigation}) {
+  const versionActual = Utilities.GetVersionActual();
+
   return (
     <View style={styles.container}>
       <View style={styles.mainTitleContainer}>
@@ -18,7 +21,7 @@ function HomeScreen({navigation}) {
         </TouchableOpacity>
       </View>
       <View>
-       <Text style={styles.versionText}>Version 1.1</Text>
+       <Text style={styles.versionText}>Version {versionActual}</Text>
       </View>
       
     </View>
