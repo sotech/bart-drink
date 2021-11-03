@@ -1,6 +1,6 @@
 //Para el ingreso de una receta en particular
 import React,{useState} from 'react';
-import {Text,StyleSheet,View, TextInput, TouchableHighlight, Alert} from 'react-native';
+import {Text,StyleSheet,View, TextInput, TouchableHighlight} from 'react-native';
 import RecetasAPI from '../utils/RecetasAPI';
 
 
