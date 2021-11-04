@@ -1,4 +1,5 @@
 //Para el ingreso de una receta en particular
+import { tsImportEqualsDeclaration } from '@babel/types';
 import React,{useState} from 'react';
 import {Text,StyleSheet,View, TextInput, TouchableHighlight} from 'react-native';
 import RecetasAPI from '../utils/RecetasAPI';
@@ -26,9 +27,13 @@ const RecetaScreen = () => {
   }
 
   const handleGuardarPressed = async() => {
-    const recetaData = "" //Obtener la data de los states
+    const recetaData ={
+      titulo:titulo,
+      ingredientes:ingredientes,
+      instrucciones:instrucciones,
+    }  //Obtener la data de los states
     await RecetasAPI.GuardarReceta(recetaData)
-    alert('Receta guardada') //Cambiar luego este alert por un Toast
+    alert('receta guardada') //Cambiar luego este alert por un Toast
   }
 
   return(
@@ -65,9 +70,7 @@ const RecetaScreen = () => {
       />
       <View style={styles.buttonContainer}>
       <TouchableHighlight
-      onPress={()=>{
-        alert(titulo)
-      }}
+      onPress={handleGuardarPressed}
       style={styles.button}
       >
         <Text style={styles.buttonText}>Guardar</Text>
