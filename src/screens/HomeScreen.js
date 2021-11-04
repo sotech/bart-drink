@@ -1,9 +1,12 @@
 import React from 'react';
-import Screens from '../Screens';
+import Screens from '../utils/Screens';
 import {Text,View,StyleSheet, TouchableOpacity,Alert} from 'react-native';
 import { Entypo } from '@expo/vector-icons';
+import Utilities from '../utils/Utilities'
 
 function HomeScreen({navigation}) {
+  const versionActual = Utilities.GetVersionActual();
+
   return (
     <View style={styles.container}>
       <View style={styles.mainTitleContainer}>
@@ -16,13 +19,11 @@ function HomeScreen({navigation}) {
           style={styles.button}>
           <Text style={styles.buttonText}>Recetas</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          //onPress={() => navigation.navigate(Screens.INGREDIENTES)}
-          onPress={() => Alert.alert('Error','En construccion!')}
-          style={styles.button}>
-          <Text style={styles.buttonText}>Ingredientes</Text>
-        </TouchableOpacity>
       </View>
+      <View>
+       <Text style={styles.versionText}>Version {versionActual}</Text>
+      </View>
+      
     </View>
   );
 }
@@ -57,6 +58,10 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:'flex-start',
     alignItems:'center'
+  },
+  versionText:{
+    fontSize:20,
+    textAlign:'center'
   }
 });
 export default HomeScreen;
