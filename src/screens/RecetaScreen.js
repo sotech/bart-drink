@@ -7,7 +7,9 @@ import RecetasAPI from '../utils/RecetasAPI';
 const RecetaScreen = () => {
   const [instrucciones, setInstrucciones]=useState('')
   const [ingredientes, setIngredientes]=useState('')
+  const [ingredientesRequerido, setIngredientesRequerido] = useState(false)
   const [titulo, setTitulo]=useState('')
+  const [tituloRequerido, setTituloRequerido] = useState(false)
   //Funcion para usar con el boton guardar
   const handleTituloChanged = (textoIngresado) => {
     //Actualizar el titulo state
@@ -31,6 +33,24 @@ const RecetaScreen = () => {
       ingredientes:ingredientes,
       instrucciones:instrucciones,
     }  //Obtener la data de los states
+    //Verificar que haya titulo e ingredientes
+    let faltanCampos = false
+    if(titulo == ''){
+      setTituloRequerido(true)
+      faltanCampos = true
+    }else{
+      setTituloRequerido(false)
+    }
+    if(ingredientes == ''){
+      setIngredientesRequerido(true)
+      faltanCampos = true
+    }else{
+      setIngredientesRequerido(false)
+    }
+    if(faltanCampos){
+      alert('Faltan campos por completar')
+      return
+    }
     await RecetasAPI.GuardarReceta(recetaData)
     reiniciarCampos()
     alert('receta guardada') //Cambiar luego este alert por un Toast
@@ -54,6 +74,9 @@ const RecetaScreen = () => {
       onChangeText={handleTituloChanged}
       style={styles.input}
       />
+      {tituloRequerido &&
+        <Text style={styles.warning}>Debe ingresar un titulo</Text>
+      }
       <Text style={styles.versionText}>Ingredientes</Text>
       <TextInput 
       autoCapitalize={'sentences'}
@@ -64,6 +87,9 @@ const RecetaScreen = () => {
       onChangeText={handleIngredientesChanged}
       style={styles.inputXl}
       />
+      {ingredientesRequerido &&
+        <Text style={styles.warning}>Debe ingresar ingredientes</Text>
+      }
       <Text style={styles.versionText}>Instrucciones</Text>
       <TextInput 
       autoCapitalize={'sentences'}
@@ -99,6 +125,9 @@ const styles = StyleSheet.create({
     backgroundColor:'lightgray',
     color:'black'
   },
+  warning:{
+    color:'red'
+  },  
   inputXl:{
     borderWidth:.5,
     fontSize: 15,
