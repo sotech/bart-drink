@@ -33,10 +33,17 @@ const RecetaScreen = () => {
       instrucciones:instrucciones,
     }  //Obtener la data de los states
     await RecetasAPI.GuardarReceta(recetaData)
+    reiniciarCampos()
     alert('receta guardada') //Cambiar luego este alert por un Toast
   }
 
+  const reiniciarCampos=()=>{
+    setTitulo('')
+    setIngredientes('')
+    setInstrucciones('')
+  }
   return(
+
     <View style={styles.container}>
       <Text style={styles.versionText}>Titulo</Text>
       <TextInput 
@@ -91,7 +98,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin:10,
     backgroundColor:'lightgray',
-    color:'white'
+    color:'black'
   },
   inputXl:{
     borderWidth:.5,
@@ -100,7 +107,7 @@ const styles = StyleSheet.create({
     margin:10,
     height:100,
     backgroundColor:'lightgray',
-    color:'white'
+    color:'black'
   },
   
   buttonContainer:{
