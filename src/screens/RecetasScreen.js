@@ -34,6 +34,7 @@ const RecetasScreen = ({ navigation }) => {
     setRecetas(await RecetasAPI.ObtenerRecetas());
     //Comentar el toast si se trabaja en la version web, sino la app crashea
     ToastAndroid.show(`${key} borrado exitosamente.`, ToastAndroid.SHORT);
+    //console.log(`${key} borrado exitosamente.`)
   }
   return (
     <View style={styles.container}>
