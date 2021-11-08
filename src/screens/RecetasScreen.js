@@ -36,7 +36,7 @@ const RecetasScreen = ({ navigation }) => {
         <ScrollView style={styles.recetasScrollContainer}>
           {recetas.map(r => {
             return <Receta
-              key={r.titulo}
+              key={r.id}
               titulo={r.titulo}
               ingredientes={r.ingredientes}
               instrucciones={r.instrucciones}

@@ -2,6 +2,7 @@
 import React,{useState} from 'react';
 import {Text,StyleSheet,View, TextInput, TouchableHighlight, ToastAndroid} from 'react-native';
 import RecetasAPI from '../utils/RecetasAPI';
+import uuid from 'react-native-uuid';
 
 
 const RecetaScreen = () => {
@@ -55,6 +56,7 @@ const RecetaScreen = () => {
       alert('Faltan campos por completar')
       return
     }
+    recetaData.id = uuid.v4();
     await RecetasAPI.GuardarReceta(recetaData)
     reiniciarCampos()
     showToast()
