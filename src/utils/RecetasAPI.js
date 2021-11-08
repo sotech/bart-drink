@@ -17,6 +17,17 @@ const ObtenerRecetas = async() =>{
 }
 
 /**
+ * Devuelve un true o false, dependiendo si el titulo de una receta ya esta guardado
+ *
+ * @param {string} titulo
+ * @returns {boolean} existe
+ */
+const ExisteReceta = async(titulo) => {
+  const recetas = await ObtenerRecetas();
+  const tituloMatch = (receta) => receta.titulo == titulo;
+  return recetas.some(tituloMatch)
+}
+/**
  * Toma una lista de recetas y las guarda dentro de memoria del telefono, reemplazando la lista anterior
  *
  * @param {Array} Recetas
@@ -51,5 +62,6 @@ export default {
   ObtenerRecetas,
   GuardarRecetas,
   GuardarReceta,
-  ClearRecetas
+  ClearRecetas,
+  ExisteReceta
 };
