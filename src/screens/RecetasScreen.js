@@ -8,9 +8,11 @@ import Screens from '../utils/Screens';
 const RecetasScreen = ({ navigation }) => {
   const [recetas, setRecetas] = useState([]);
 
-  useFocusEffect(() => {
-    PopulateRecetas();
-  }, [])
+  useFocusEffect(
+    React.useCallback(() => {
+      PopulateRecetas();
+    }, [])
+  );
 
   const PopulateRecetas = async () => {
     const recetasData = await RecetasAPI.ObtenerRecetas()
