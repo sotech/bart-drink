@@ -1,6 +1,6 @@
 //Para el ingreso de una receta en particular
 import React,{useState} from 'react';
-import {Text,StyleSheet,View, TextInput, TouchableHighlight} from 'react-native';
+import {Text,StyleSheet,View, TextInput, TouchableHighlight, ToastAndroid} from 'react-native';
 import RecetasAPI from '../utils/RecetasAPI';
 
 
@@ -16,6 +16,10 @@ const RecetaScreen = () => {
     setTitulo(textoIngresado)
     
   }
+
+  const showToast = () => {
+    ToastAndroid.show("Guardado!", ToastAndroid.SHORT); 
+  };
 
   const handleIngredientesChanged = (textoIngresado) => {
     setIngredientes(textoIngresado)
@@ -53,7 +57,8 @@ const RecetaScreen = () => {
     }
     await RecetasAPI.GuardarReceta(recetaData)
     reiniciarCampos()
-    alert('receta guardada') //Cambiar luego este alert por un Toast
+    showToast()
+     //Cambiar luego este alert por un Toast
   }
 
   const reiniciarCampos=()=>{
@@ -106,6 +111,7 @@ const RecetaScreen = () => {
       style={styles.button}
       >
         <Text style={styles.buttonText}>Guardar</Text>
+        
       </TouchableHighlight>
       </View>
     </View>
