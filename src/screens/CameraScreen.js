@@ -43,6 +43,9 @@ const CameraScreen=()=>{
 const styles = StyleSheet.create({ 
     container:{
         flex:1
+    },
+    camera:{
+        flex:1
     }
 }); 
 export default CameraScreen;
