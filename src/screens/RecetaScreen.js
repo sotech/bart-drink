@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   warning: {
-    color: 'red'
+    color: 'red',
+    marginVertical:5,
   },
   inputXl: {
     borderWidth: .5,
@@ -169,7 +170,8 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 100,
     backgroundColor: 'lightgray',
-    color: 'black'
+    color: 'black',
+    textAlignVertical:'top'
   },
 
   buttonContainer: {
