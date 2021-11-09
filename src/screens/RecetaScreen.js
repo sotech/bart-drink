@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, View, TextInput, TouchableHighlight, ToastAndroid } from 'react-native';
 import RecetasAPI from '../utils/RecetasAPI';
 import uuid from 'react-native-uuid';
+import Screens from '../utils/Screens';
 
-
-const RecetaScreen = () => {
+const RecetaScreen = ({navigation}) => {
   const [instrucciones, setInstrucciones] = useState('')
   const [ingredientes, setIngredientes] = useState('')
   const [ingredientesRequerido, setIngredientesRequerido] = useState(false)
@@ -29,6 +29,8 @@ const RecetaScreen = () => {
   }
 
   const validarTitulo = async() => {
+    setTituloRequerido(false)
+    setTituloExistente(false)
     let valido = true;
     if (titulo == '') {
       setTituloRequerido(true)
@@ -38,21 +40,17 @@ const RecetaScreen = () => {
       if (await RecetasAPI.ExisteReceta(titulo)){
         setTituloExistente(true)
         valido = false
-      }else{
-        setTituloRequerido(false)
-        setTituloExistente(false)
       }
     }
     return valido
   }
 
   const validarIngredientes = () => {
+    setIngredientesRequerido(false)
     let valido = true
     if (ingredientes == '') {
       setIngredientesRequerido(true)
       valido = false
-    } else {
-      setIngredientesRequerido(false)
     }
     return valido
   }
@@ -84,7 +82,8 @@ const RecetaScreen = () => {
     }
     await RecetasAPI.GuardarReceta(recetaData)
     reiniciarCampos()
-    //showToast()
+    showToast()
+    navigation.navigate(Screens.RECETAS)
   }
 
   const reiniciarCampos = () => {
@@ -160,7 +159,8 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   warning: {
-    color: 'red'
+    color: 'red',
+    marginVertical:5,
   },
   inputXl: {
     borderWidth: .5,
@@ -169,7 +169,8 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 100,
     backgroundColor: 'lightgray',
-    color: 'black'
+    color: 'black',
+    textAlignVertical:'top'
   },
 
   buttonContainer: {
