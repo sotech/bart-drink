@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+
 
 const CameraScreen=()=>{
   const [hasPermission, setHasPermission] = useState(null);
@@ -32,10 +35,18 @@ const CameraScreen=()=>{
                   : Camera.Constants.Type.back
               );
             }}>
-            <Text style={styles.text}> Flip </Text>
+            <MaterialIcons name="flip-camera-ios" size={50} color="white" />
           </TouchableOpacity>
-        </View>
+         </View>
+         
       </Camera>
+      <View style={styles.buttonFoto}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {  }}>
+            <Entypo name="camera" size={65} color="black"/>
+          </TouchableOpacity>
+         </View>
     </View>
   );
 }
@@ -46,6 +57,9 @@ const styles = StyleSheet.create({
     },
     camera:{
         flex:1
+    },
+    buttonFoto:{
+      alignItems: 'center'
     }
 }); 
 export default CameraScreen;

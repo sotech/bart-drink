@@ -3,9 +3,10 @@ import React,{useState} from 'react';
 import {Text,StyleSheet,View, TextInput, TouchableHighlight, ToastAndroid} from 'react-native';
 import RecetasAPI from '../utils/RecetasAPI';
 import uuid from 'react-native-uuid';
+import Screens from '../utils/Screens';
 
 
-const RecetaScreen = () => {
+const RecetaScreen = ({ navigation }) => {
   const [instrucciones, setInstrucciones]=useState('')
   const [ingredientes, setIngredientes]=useState('')
   const [ingredientesRequerido, setIngredientesRequerido] = useState(false)
@@ -30,6 +31,10 @@ const RecetaScreen = () => {
   const handleDescripcionChanged = (textoIngresado) => {
     //Actualizar el Descripcion state
     setInstrucciones(textoIngresado)
+  }
+
+  const handleCamara = ()=>{
+    navigation.navigate(Screens.CAMARA)
   }
 
   const handleGuardarPressed = async() => {
@@ -114,6 +119,12 @@ const RecetaScreen = () => {
       >
         <Text style={styles.buttonText}>Guardar</Text>
         
+      </TouchableHighlight>
+      <TouchableHighlight
+      onPress={handleCamara}
+      style={styles.button}
+      >
+        <Text style={styles.buttonText}>Camara</Text>
       </TouchableHighlight>
       </View>
     </View>

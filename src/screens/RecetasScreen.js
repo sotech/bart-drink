@@ -23,10 +23,6 @@ const RecetasScreen = ({ navigation }) => {
     navigation.navigate(Screens.RECETA)
   }
 
-  const handleCamara = ()=>{
-    navigation.navigate(Screens.CAMARA)
-  }
-
 
   const handleDelete = async (key) => {
     const newRecetas = recetas.filter(receta => receta.titulo !== key);
@@ -57,12 +53,6 @@ const RecetasScreen = ({ navigation }) => {
             style={styles.button}
           >
             <Text style={styles.buttonText}>Agregar Receta</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleCamara}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Camara</Text>
           </TouchableOpacity>
         </View>
       </View>
