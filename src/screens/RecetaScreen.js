@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, View, TextInput, TouchableHighlight, ToastAndroid } from 'react-native';
 import RecetasAPI from '../utils/RecetasAPI';
 import uuid from 'react-native-uuid';
+import Screens from '../utils/Screens';
 
-
-const RecetaScreen = () => {
+const RecetaScreen = ({navigation}) => {
   const [instrucciones, setInstrucciones] = useState('')
   const [ingredientes, setIngredientes] = useState('')
   const [ingredientesRequerido, setIngredientesRequerido] = useState(false)
@@ -85,6 +85,7 @@ const RecetaScreen = () => {
     await RecetasAPI.GuardarReceta(recetaData)
     reiniciarCampos()
     showToast()
+    navigation.navigate(Screens.RECETAS)
   }
 
   const reiniciarCampos = () => {
