@@ -51,6 +51,18 @@ const GuardarReceta = async(receta) =>{
 }
 
 /**
+ *Devuelve una receta al azar, sino devuelve null
+ *
+ */
+const ObtenerRecetaAlAzar = async() => {
+  const recetas = await ObtenerRecetas()
+  if(recetas.length > 0){
+    return recetas[Math.floor(Math.random() * (recetas.length))]
+  }
+  return null
+}
+
+/**
  *Limpia la memoria del telefono relacionada a esta aplicacion
  *
  */
@@ -63,5 +75,6 @@ export default {
   GuardarRecetas,
   GuardarReceta,
   ClearRecetas,
-  ExisteReceta
+  ExisteReceta,
+  ObtenerRecetaAlAzar
 };

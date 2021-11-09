@@ -1,14 +1,28 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Screens from '../utils/Screens';
-import {Text,View,StyleSheet, TouchableOpacity,Alert} from 'react-native';
+import {Text,View,StyleSheet, TouchableOpacity} from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import Utilities from '../utils/Utilities'
+import RecetasAPI from '../utils/RecetasAPI';
+import RecetaModal from '../components/RecetaModal';
 
 function HomeScreen({navigation}) {
   const versionActual = Utilities.GetVersionActual();
+  const [recetaRandom, setRecetaRandom] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false);
 
+  const handleSorprendemePressed = async() => {
+    const receta = await RecetasAPI.ObtenerRecetaAlAzar();
+    setRecetaRandom(receta);
+    setModalVisible(true);
+  }
+
+  const closeModal = () =>{
+    setModalVisible(false);
+  }
   return (
     <View style={styles.container}>
+      {modalVisible && <RecetaModal receta={recetaRandom} closeModal={closeModal}/>}
       <View style={styles.mainTitleContainer}>
         <Text style={styles.mainTitleText}>Bartelper!</Text>
         <Entypo name="drink" size={35} color="black" />
@@ -18,6 +32,11 @@ function HomeScreen({navigation}) {
           onPress={() => navigation.navigate(Screens.RECETAS)}
           style={styles.button}>
           <Text style={styles.buttonText}>Recetas</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleSorprendemePressed}
+          style={styles.button}>
+          <Text style={styles.buttonText}>¡SORPRENDEME!</Text>
         </TouchableOpacity>
       </View>
       <View>
@@ -35,7 +54,7 @@ const styles = StyleSheet.create({
   button:{
     backgroundColor:'black',
     padding:15,
-    width:'30%',
+    width:'50%',
     borderRadius:15,
     margin:10,
   },
