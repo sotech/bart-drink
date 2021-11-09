@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Text, View, TextInput, TouchableOpacity, ScrollView, StyleSheet, ToastAndroid } from 'react-native';
 import Receta from '../components/Receta';
@@ -10,6 +10,7 @@ const RecetasScreen = ({ navigation }) => {
   const [recetas, setRecetas] = useState([]);
   const [filteredRecetas,setFilteredRecetas] = useState([]);
   const [search,setSearch] = useState('')
+  const searchInput = useRef(null)
   useFocusEffect(
     React.useCallback(() => {
       PopulateRecetas();
@@ -71,9 +72,15 @@ const RecetasScreen = ({ navigation }) => {
           <TextInput
           placeholder={'Buscar recetas'}
           value={search}
-            onChangeText={handleSearchChange}
+          onChangeText={handleSearchChange}
+          ref={searchInput}
           />
-          <FontAwesome name="search" size={24} color="black" />
+          <TouchableOpacity
+          onPress={()=>{
+            searchInput.current.focus()
+          }}>
+            <FontAwesome name="search" size={24} color="black" />
+          </TouchableOpacity>
         </View>
         <ScrollView style={styles.recetasScrollContainer}>
           {filteredRecetas.map(r => {
