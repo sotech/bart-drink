@@ -29,6 +29,8 @@ const RecetaScreen = ({navigation}) => {
   }
 
   const validarTitulo = async() => {
+    setTituloRequerido(false)
+    setTituloExistente(false)
     let valido = true;
     if (titulo == '') {
       setTituloRequerido(true)
@@ -38,21 +40,17 @@ const RecetaScreen = ({navigation}) => {
       if (await RecetasAPI.ExisteReceta(titulo)){
         setTituloExistente(true)
         valido = false
-      }else{
-        setTituloRequerido(false)
-        setTituloExistente(false)
       }
     }
     return valido
   }
 
   const validarIngredientes = () => {
+    setIngredientesRequerido(false)
     let valido = true
     if (ingredientes == '') {
       setIngredientesRequerido(true)
       valido = false
-    } else {
-      setIngredientesRequerido(false)
     }
     return valido
   }
