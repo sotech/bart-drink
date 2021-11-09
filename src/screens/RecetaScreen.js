@@ -22,7 +22,7 @@ const RecetaScreen = () => {
     const ingredientesValido = validarIngredientes()
     const valido = tituloValido && ingredientesValido
     if (!valido) {
-      //ToastAndroid.show('Faltan campos por completar', ToastAndroid.SHORT)
+      ToastAndroid.show('Faltan campos por completar', ToastAndroid.SHORT)
       //console.log('Faltan campos por completar')
     }
     return valido
@@ -84,7 +84,7 @@ const RecetaScreen = () => {
     }
     await RecetasAPI.GuardarReceta(recetaData)
     reiniciarCampos()
-    //showToast()
+    showToast()
   }
 
   const reiniciarCampos = () => {
