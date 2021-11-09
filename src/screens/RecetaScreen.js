@@ -69,6 +69,7 @@ const RecetaScreen = ({navigation}) => {
     setInstrucciones(textoIngresado)
   }
 
+
   const handleGuardarPressed = async () => {
     const valido = await validarCampos()
     if (!valido)

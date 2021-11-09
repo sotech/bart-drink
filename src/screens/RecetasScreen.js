@@ -47,12 +47,13 @@ const RecetasScreen = ({ navigation }) => {
     navigation.navigate(Screens.RECETA)
   }
 
+
   const handleCamara = ()=>{
     navigation.navigate(Screens.CAMARA)
   }
   const handleSearchRecetas = (data) => {
     //El componente Search devuelve el array modificado para setearse
-    console.log('handleSearch',data)
+
     setRecetas(data)
   }
 
@@ -101,12 +102,6 @@ const RecetasScreen = ({ navigation }) => {
             style={styles.button}
           >
             <Text style={styles.buttonText}>Agregar Receta</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleCamara}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Camara</Text>
           </TouchableOpacity>
         </View>
       </View>
