@@ -4,6 +4,10 @@ import { Camera } from 'expo-camera';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
+const handleFotoPress=()=>{
+
+
+}
 
 const CameraScreen=()=>{
   const [hasPermission, setHasPermission] = useState(null);
@@ -15,7 +19,7 @@ const CameraScreen=()=>{
       setHasPermission(status === 'granted');
     })();
   }, []);
-
+  
   if (hasPermission === null) {
     return <View />;
   }

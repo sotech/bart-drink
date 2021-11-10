@@ -87,6 +87,10 @@ const RecetaScreen = ({navigation}) => {
     navigation.navigate(Screens.RECETAS)
   }
 
+  const handleCamara = ()=>{
+    navigation.navigate(Screens.CAMARA)
+  }
+
   const reiniciarCampos = () => {
     setTitulo('')
     setIngredientes('')
@@ -141,6 +145,12 @@ const RecetaScreen = ({navigation}) => {
           <Text style={styles.buttonText}>Guardar</Text>
 
         </TouchableHighlight>
+        <TouchableHighlight
+         onPress={handleCamara}
+         style={styles.button}
+         >
+         <Text style={styles.buttonText}>Camara</Text>
+         </TouchableHighlight>
       </View>
     </View>
   )
