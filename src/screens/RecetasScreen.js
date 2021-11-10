@@ -53,10 +53,6 @@ const RecetasScreen = ({ navigation }) => {
     navigation.navigate(Screens.RECETA)
   }
 
-
-  const handleCamara = ()=>{
-    navigation.navigate(Screens.CAMARA)
-  }
   const handleSearchRecetas = (data) => {
     //El componente Search devuelve el array modificado para setearse
 
