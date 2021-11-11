@@ -31,6 +31,7 @@ const CameraScreen=()=>{
   if (hasPermission === null) {
     return <View />;
   }
+
   if (hasPermission === false) {
     return <Text>No hay acceso a la camara</Text>;
   }
@@ -40,29 +41,29 @@ const CameraScreen=()=>{
       <Camera 
       style={styles.camera} 
       type={type}
-      ref={camera}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <MaterialIcons name="flip-camera-ios" size={50} color="white" />
-          </TouchableOpacity>
-         </View>
-         
+      ref={camera}>      
       </Camera>
       <View style={styles.buttonFoto}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleFotoPress}>
-            <Entypo name="camera" size={65} color="black"/>
-          </TouchableOpacity>
-         </View>
+        <TouchableOpacity>
+        <Entypo name="save" size={55} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+           onPress={handleFotoPress}>
+          <Entypo name="camera" size={65} color="black"/>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            setType(
+              type === Camera.Constants.Type.back
+                ? Camera.Constants.Type.front
+                : Camera.Constants.Type.back
+            );
+          }}>
+          <MaterialIcons name="flip-camera-ios" size={55} color="black" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -75,7 +76,9 @@ const styles = StyleSheet.create({
         flex:1
     },
     buttonFoto:{
-      alignItems: 'center'
+      flexDirection:'row',
+      justifyContent:'space-around',
+      alignItems:'center'
     }
 }); 
 export default CameraScreen;
