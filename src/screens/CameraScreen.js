@@ -31,7 +31,6 @@ const CameraScreen=()=>{
   if (hasPermission === null) {
     return <View />;
   }
-
   if (hasPermission === false) {
     return <Text>No hay acceso a la camara</Text>;
   }
