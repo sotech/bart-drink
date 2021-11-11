@@ -47,7 +47,7 @@ const GuardarReceta = async(receta) =>{
   let recetas = await ObtenerRecetas();
   //Deberia haber alguna validacion aqui
   recetas.push(receta)
-  GuardarRecetas(recetas)
+  await GuardarRecetas(recetas)
 }
 
 /**
