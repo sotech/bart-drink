@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native'
 
 const RecetaModal = ({ receta, closeModal }) => {
-  const { titulo = '', ingredientes = '', instrucciones = '' } = receta ?? {};
+  const { titulo = '', ingredientes = '', instrucciones = '', foto = null } = receta ?? {};
 
   return (
     <Modal
@@ -25,6 +25,11 @@ const RecetaModal = ({ receta, closeModal }) => {
               <View style={styles.instruccionesContainer}>
                 <Text style={styles.instrucciones}>{instrucciones}</Text>
               </View>
+              {foto && 
+              <View>
+                <Image style={styles.icono} source={{ uri: `data:image/png;base64,${foto.base64}` }} />
+              </View>
+              }
             </View>
             )}
             {!receta && (
@@ -57,6 +62,10 @@ const styles = StyleSheet.create({
     padding: 20,
     borderWidth: 1,
     alignItems: 'center'
+  },
+  icono: {
+    width: 75,
+    height: 75
   },
   tituloContainer:{
     alignItems:'center',

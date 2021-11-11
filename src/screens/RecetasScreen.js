@@ -38,7 +38,6 @@ const RecetasScreen = ({ navigation }) => {
         const resultado = receta.titulo.toUpperCase().includes(search.toUpperCase())
         return resultado
       })
-      console.log(newRecetas)
       setFilteredRecetas(newRecetas)
     }
   }
@@ -92,6 +91,7 @@ const RecetasScreen = ({ navigation }) => {
               titulo={r.titulo}
               ingredientes={r.ingredientes}
               instrucciones={r.instrucciones}
+              foto={r.foto}
               borrar={handleDelete}
             />
           })}

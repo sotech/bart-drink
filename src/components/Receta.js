@@ -1,8 +1,8 @@
 import React from 'react';
-import {View,Text,StyleSheet, TouchableOpacity} from 'react-native';
+import {View,Text,StyleSheet, TouchableOpacity,Image} from 'react-native';
 import {Entypo} from '@expo/vector-icons';
 
-const Receta = ({ titulo, ingredientes, instrucciones, borrar}) => {
+const Receta = ({ titulo, ingredientes, instrucciones, foto, borrar}) => {
   return(
     <View style={styles.container}>
       <View style={styles.header}>
@@ -19,6 +19,7 @@ const Receta = ({ titulo, ingredientes, instrucciones, borrar}) => {
       </View>
       <Text style={styles.texto}>{ingredientes}</Text>
       <Text style={styles.instrucciones}>{instrucciones}</Text>
+      {foto && <Image style={styles.icono} source={{ uri: `data:image/png;base64,${foto.base64}` }} />}
     </View>
   )
 }
@@ -29,6 +30,10 @@ const styles = StyleSheet.create({
     padding:5,
     marginBottom:5,
     backgroundColor:'lightblue'
+  },
+  icono:{
+    width:75,
+    height:75
   },
   header:{
     flexDirection:'row',
