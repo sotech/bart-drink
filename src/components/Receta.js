@@ -3,7 +3,6 @@ import {View,Text,StyleSheet, TouchableOpacity,Image} from 'react-native';
 import {Entypo} from '@expo/vector-icons';
 
 const Receta = ({ titulo, ingredientes, instrucciones, foto, borrar}) => {
-  console.log('Receta',foto)
   return(
     <View style={styles.container}>
       <View style={styles.header}>
