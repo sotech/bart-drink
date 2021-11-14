@@ -1,6 +1,5 @@
 import React from 'react';
 import {View,Text,StyleSheet, ImageBackground, TouchableOpacity} from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
 const CameraPreview = ({ image, handleSave, handleTakePictureAgain}) => {

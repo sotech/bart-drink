@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import RecetaIngreso from '../components/RecetaIngreso';
 import CameraComponent from '../components/CameraComponent';
 import CameraPreview from '../components/CameraPreview';
+
 import Screens from '../utils/Screens';
 
 const RecetaScreen = ({navigation}) => {
@@ -11,6 +12,7 @@ const RecetaScreen = ({navigation}) => {
   const [showRecetaInputScreen, setShowRecetaInputScreen] = useState(true)
   const [showCameraScreen, setShowCameraScreen] = useState(false)
   const [showCameraPreviewScreen, setShowCameraPreviewScreen] = useState(false)
+  
   const [fotoPreview,setFotoPreview] = useState(null);
   const [foto,setFoto] = useState(null);
 

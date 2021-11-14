@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native'
+import { Modal, StyleSheet, View, Text, Button, TouchableOpacity,Image } from 'react-native'
 
 const RecetaModal = ({ receta, closeModal }) => {
   const { titulo = '', ingredientes = '', instrucciones = '', foto = null } = receta ?? {};
@@ -27,7 +27,7 @@ const RecetaModal = ({ receta, closeModal }) => {
               </View>
               {foto && 
               <View>
-                <Image style={styles.icono} source={{ uri: `data:image/png;base64,${foto.base64}` }} />
+                <Image style={styles.icono} source={{ uri: foto }} />
               </View>
               }
             </View>
