@@ -15,6 +15,23 @@ const RecetaScreen = ({navigation}) => {
   
   const [fotoPreview,setFotoPreview] = useState(null);
   const [foto,setFoto] = useState(null);
+  const [titulo, setTitulo] = useState('')
+  const [ingredientes, setIngredientes] = useState('')
+  const [instrucciones, setInstrucciones] = useState('')
+    
+  const handleTituloChanged = (textoIngresado) => {
+    setTitulo(textoIngresado)
+  }
+
+  const handleDescripcionChanged = (textoIngresado) => {
+    //Actualizar el Descripcion state
+    setInstrucciones(textoIngresado)
+  }
+  
+  const handleIngredientesChanged = (textoIngresado) => {
+    setIngredientes(textoIngresado)
+    //Actualizar el Ingredientes state
+  }
 
   const handleAfterGuardar = () => {
     navigation.navigate(Screens.RECETAS)
@@ -50,7 +67,16 @@ const RecetaScreen = ({navigation}) => {
 
   return (
     <>
-      {showRecetaInputScreen && <RecetaIngreso foto={foto} handleAfterGuardar={handleAfterGuardar} handleCamara={handleCamara}/>}
+      {showRecetaInputScreen && <RecetaIngreso 
+      titulo={titulo}
+      onTituloChanged={handleTituloChanged}
+      ingredientes={ingredientes}
+      onIngredientesChanged={handleIngredientesChanged}
+      instrucciones={instrucciones}
+      onDescripcionChanged={handleDescripcionChanged}
+      foto={foto} 
+      handleAfterGuardar={handleAfterGuardar} 
+      handleCamara={handleCamara}/>}
       {showCameraScreen && <CameraComponent handleFotoPressed={handleFotoPressed}/>}
       {showCameraPreviewScreen && <CameraPreview image={fotoPreview} handleSave={handleSave} handleTakePictureAgain={handleTakePictureAgain}/>}
     </>

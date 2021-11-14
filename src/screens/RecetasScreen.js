@@ -5,6 +5,7 @@ import Receta from '../components/Receta';
 import RecetasAPI from '../utils/RecetasAPI';
 import Screens from '../utils/Screens';
 import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 const RecetasScreen = ({ navigation }) => {
   const [recetas, setRecetas] = useState([]);
@@ -58,7 +59,6 @@ const RecetasScreen = ({ navigation }) => {
     setRecetas(data)
   }
 
-  console.log(filteredRecetas)
   const handleDelete = async (key) => {
     const newRecetas = recetas.filter(receta => receta.titulo !== key);
     await RecetasAPI.GuardarRecetas(newRecetas);
@@ -104,6 +104,7 @@ const RecetasScreen = ({ navigation }) => {
             style={styles.button}
           >
             <Text style={styles.buttonText}>Agregar Receta</Text>
+            <AntDesign name="pluscircle" size={24} color="white" />
           </TouchableOpacity>
         </View>
       </View>
@@ -138,7 +139,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     marginVertical: 5,
     backgroundColor: 'black',
-    alignItems: 'center'
+    flexDirection:'row',
+    justifyContent:'space-around',
+    alignItems:'center',
   },
   buttonText: {
     color: 'white',

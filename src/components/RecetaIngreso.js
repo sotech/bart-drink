@@ -2,29 +2,22 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, View, TextInput, TouchableHighlight, ToastAndroid, Image } from 'react-native';
 import RecetasAPI from '../utils/RecetasAPI';
 import uuid from 'react-native-uuid';
+import { Entypo } from '@expo/vector-icons';
 
-const RecetaIngreso = ({ foto, handleAfterGuardar, handleCamara}) => {
+const RecetaIngreso = ({
+  titulo,
+  onTituloChanged,
+  ingredientes,
+  onIngredientesChanged,
+  instrucciones,
+  onDescripcionChanged,
+  foto, 
+  handleAfterGuardar, 
+  handleCamara}) => {
   //Mensajes para las validaciones
   const [ingredientesRequerido, setIngredientesRequerido] = useState(false)
   const [tituloRequerido, setTituloRequerido] = useState(false)
   const [tituloExistente, setTituloExistente] = useState(false)
-  //Campos
-  const [instrucciones, setInstrucciones] = useState('')
-  const [ingredientes, setIngredientes] = useState('')
-  const [titulo, setTitulo] = useState('')
-  const handleTituloChanged = (textoIngresado) => {
-    setTitulo(textoIngresado)
-  }
-
-  const handleIngredientesChanged = (textoIngresado) => {
-    setIngredientes(textoIngresado)
-    //Actualizar el Ingredientes state
-  }
-
-  const handleDescripcionChanged = (textoIngresado) => {
-    //Actualizar el Descripcion state
-    setInstrucciones(textoIngresado)
-  }
 
   const handleGuardarPressed = async () => {
     const valido = await validarCampos()
@@ -36,14 +29,13 @@ const RecetaIngreso = ({ foto, handleAfterGuardar, handleCamara}) => {
       ingredientes: ingredientes,
       instrucciones: instrucciones,
       id: uuid.v4(),
-      foto: foto.uri
+      foto: foto?.uri || null
     }
     await RecetasAPI.GuardarReceta(recetaData)
     handleAfterGuardar()
     showGuardadoToast()
   }
 
-  console.log('Imagen2',foto)
   const validarCampos = async () => {
     const tituloValido = await validarTitulo()
     const ingredientesValido = validarIngredientes()
@@ -94,7 +86,7 @@ const RecetaIngreso = ({ foto, handleAfterGuardar, handleCamara}) => {
         maxLength={25}
         placeholder={'Ingrese titulo'}
         value={titulo}
-        onChangeText={handleTituloChanged}
+        onChangeText={onTituloChanged}
         style={styles.input}
       />
       {tituloRequerido &&
@@ -110,7 +102,7 @@ const RecetaIngreso = ({ foto, handleAfterGuardar, handleCamara}) => {
         value={ingredientes}
         multiline
         numberOfLines={8}
-        onChangeText={handleIngredientesChanged}
+        onChangeText={onIngredientesChanged}
         style={styles.inputXl}
       />
       {ingredientesRequerido &&
@@ -123,23 +115,29 @@ const RecetaIngreso = ({ foto, handleAfterGuardar, handleCamara}) => {
         value={instrucciones}
         multiline
         numberOfLines={20}
-        onChangeText={handleDescripcionChanged}
+        onChangeText={onDescripcionChanged}
         style={styles.inputXl}
       />
       {foto && <Image style={styles.image} source={{ uri: foto.uri }} />}
       <View style={styles.buttonContainer}>
         <TouchableHighlight
           onPress={handleGuardarPressed}
-          style={styles.button}
+          
         >
-          <Text style={styles.buttonText}>Guardar</Text>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Guardar</Text>
+            <Entypo name="save" size={24} color="white" />
+          </View>
 
         </TouchableHighlight>
         <TouchableHighlight
           onPress={handleCamara}
-          style={styles.button}
         >
-          <Text style={styles.buttonText}>Camara</Text>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Camara</Text>
+            <Entypo name="camera" size={24} color="white" />
+          </View>
+          
         </TouchableHighlight>
       </View>
     </View>
@@ -187,15 +185,17 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'black',
-    padding: 15,
-    width: '50%',
+    padding: 20,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
     borderRadius: 15,
     margin: 10,
   },
   buttonText: {
     color: 'white',
     fontSize: 20,
-    textAlign: 'center'
+    marginRight:5,
   },
   versionText: {
     fontSize: 20,

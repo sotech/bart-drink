@@ -2,10 +2,10 @@ import React,{useState} from 'react';
 import Screens from '../utils/Screens';
 import {Text,View,StyleSheet, TouchableOpacity} from 'react-native';
 import { Entypo } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Utilities from '../utils/Utilities'
 import RecetasAPI from '../utils/RecetasAPI';
 import RecetaModal from '../components/RecetaModal';
-
 function HomeScreen({navigation}) {
   const versionActual = Utilities.GetVersionActual();
   const [recetaRandom, setRecetaRandom] = useState(null)
@@ -32,11 +32,13 @@ function HomeScreen({navigation}) {
           onPress={() => navigation.navigate(Screens.RECETAS)}
           style={styles.button}>
           <Text style={styles.buttonText}>Recetas</Text>
+          <MaterialCommunityIcons name="notebook" size={24} color="white" />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleSorprendemePressed}
           style={styles.button}>
           <Text style={styles.buttonText}>¡SORPRENDEME!</Text>
+          <MaterialCommunityIcons name="party-popper" size={24} color="white" />
         </TouchableOpacity>
       </View>
       <View>
@@ -53,8 +55,10 @@ const styles = StyleSheet.create({
   },
   button:{
     backgroundColor:'black',
-    padding:15,
-    width:'50%',
+    flexDirection:'row',
+    justifyContent:'space-around',
+    alignItems:'center',
+    padding:20,
     borderRadius:15,
     margin:10,
   },
