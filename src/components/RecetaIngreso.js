@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, View, TextInput, TouchableHighlight, ToastAndroid, Image } from 'react-native';
 import RecetasAPI from '../utils/RecetasAPI';
-
 import uuid from 'react-native-uuid';
 
 const RecetaIngreso = ({ foto, handleAfterGuardar, handleCamara}) => {
+  //Mensajes para las validaciones
   const [ingredientesRequerido, setIngredientesRequerido] = useState(false)
   const [tituloRequerido, setTituloRequerido] = useState(false)
   const [tituloExistente, setTituloExistente] = useState(false)
+  //Campos
   const [instrucciones, setInstrucciones] = useState('')
   const [ingredientes, setIngredientes] = useState('')
   const [titulo, setTitulo] = useState('')
@@ -35,13 +36,14 @@ const RecetaIngreso = ({ foto, handleAfterGuardar, handleCamara}) => {
       ingredientes: ingredientes,
       instrucciones: instrucciones,
       id: uuid.v4(),
-      foto: foto
+      foto: foto.uri
     }
     await RecetasAPI.GuardarReceta(recetaData)
     handleAfterGuardar()
-    showToast()
+    showGuardadoToast()
   }
 
+  console.log('Imagen2',foto)
   const validarCampos = async () => {
     const tituloValido = await validarTitulo()
     const ingredientesValido = validarIngredientes()
@@ -80,7 +82,7 @@ const RecetaIngreso = ({ foto, handleAfterGuardar, handleCamara}) => {
     return valido
   }
 
-  const showToast = () => {
+  const showGuardadoToast = () => {
     ToastAndroid.show("¡Guardado!", ToastAndroid.SHORT);
   };
 
@@ -124,7 +126,7 @@ const RecetaIngreso = ({ foto, handleAfterGuardar, handleCamara}) => {
         onChangeText={handleDescripcionChanged}
         style={styles.inputXl}
       />
-      {foto && <Image style={styles.image} source={{ uri: `data:image/png;base64,${foto.base64}` }} />}
+      {foto && <Image style={styles.image} source={{ uri: foto.uri }} />}
       <View style={styles.buttonContainer}>
         <TouchableHighlight
           onPress={handleGuardarPressed}

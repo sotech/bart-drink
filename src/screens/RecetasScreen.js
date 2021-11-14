@@ -58,7 +58,7 @@ const RecetasScreen = ({ navigation }) => {
     setRecetas(data)
   }
 
-  
+  console.log(filteredRecetas)
   const handleDelete = async (key) => {
     const newRecetas = recetas.filter(receta => receta.titulo !== key);
     await RecetasAPI.GuardarRecetas(newRecetas);

@@ -3,29 +3,34 @@ import { View, Text, StyleSheet,TouchableOpacity } from 'react-native'
 import { Camera } from 'expo-camera';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import * as MediaLibrary from 'expo-media-library';
 
 const CameraComponent = ({handleFotoPressed}) => {
-
+  //Permisos
   const [hasPermission, setHasPermission] = useState(null);
+  //Camara trasera
   const [type, setType] = useState(Camera.Constants.Type.back);
+  //Referencia a la camara
   const camera = useRef(null)
-
-  //Llama la funcion asincronica una vez al abrir la pantalla
+  
+  //Llama la funcion asincronica una vez al abrir la pantalla y setear los permisos
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync()
       setHasPermission(status === 'granted');
     })();
   }, []);
 
   const handleFotoPress = async () => {
     if (camera) {
-      const foto = await camera.current.takePictureAsync({
-        base64: true,
-        quality:0.5,
+      const {uri} = await camera.current.takePictureAsync({
         skipProcessing:true
       });
-      handleFotoPressed(foto)
+      //Todo - Mover a la otra pantalla para guardar totalmente
+      //Todo - Ver como cargar assets
+      const asset = await MediaLibrary.createAssetAsync(uri);
+      handleFotoPressed(asset)
     }
   }
 
