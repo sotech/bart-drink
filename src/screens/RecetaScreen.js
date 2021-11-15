@@ -66,6 +66,11 @@ const RecetaScreen = ({navigation,route}) => {
     setShowCameraScreen(false);
   }
 
+
+  const handleDeleteFoto = () => {
+    setFoto(null)
+  }
+
   const handleSave = (image) => {
     setFoto(image)
     setShowRecetaInputScreen(true);
@@ -91,6 +96,7 @@ const RecetaScreen = ({navigation,route}) => {
       fotov={foto} 
       handleAfterGuardar={handleAfterGuardar} 
       handleCamara={handleCamara}
+      handleDeleteFoto={handleDeleteFoto}
       editMode={editMode}
       idv={id}
       />
