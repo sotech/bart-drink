@@ -5,7 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 const FotoPreview = ({foto,onDelete}) => {
   return(
     <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: foto.uri }} />
+      <Image style={styles.image} source={{ uri: foto }} />
       <TouchableOpacity
         style={styles.crossButton}
         onPress={() => onDelete()}

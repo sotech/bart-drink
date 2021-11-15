@@ -134,7 +134,7 @@ const RecetaIngreso = ({
         onChangeText={onDescripcionChanged}
         style={styles.inputXl}
       />
-      {foto && <FotoPreview foto={foto} onDelete={handleDeleteFoto}/>}
+      {fotov && <FotoPreview foto={fotov} onDelete={handleDeleteFoto}/>}
       <View style={styles.buttonContainer}>
         <TouchableHighlight
           onPress={handleGuardarPressed}
