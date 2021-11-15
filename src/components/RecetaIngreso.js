@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, TextInput, TouchableHighlight, ToastAndroid, Image } from 'react-native';
+import { Text, StyleSheet, View, TextInput, TouchableHighlight, ToastAndroid, Image, ScrollView } from 'react-native';
 import RecetasAPI from '../utils/RecetasAPI';
 import uuid from 'react-native-uuid';
 import { Entypo } from '@expo/vector-icons';
+import FotoPreview from '../components/FotoPreview'
 
 const RecetaIngreso = ({
   titulo,
@@ -13,7 +14,9 @@ const RecetaIngreso = ({
   onDescripcionChanged,
   foto, 
   handleAfterGuardar, 
-  handleCamara}) => {
+  handleCamara,
+  handleDeleteFoto
+  }) => {
   //Mensajes para las validaciones
   const [ingredientesRequerido, setIngredientesRequerido] = useState(false)
   const [tituloRequerido, setTituloRequerido] = useState(false)
@@ -79,7 +82,7 @@ const RecetaIngreso = ({
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.versionText}>Titulo</Text>
       <TextInput
         autoFocus={true}
@@ -118,11 +121,11 @@ const RecetaIngreso = ({
         onChangeText={onDescripcionChanged}
         style={styles.inputXl}
       />
-      {foto && <Image style={styles.image} source={{ uri: foto.uri }} />}
+      {foto && <FotoPreview foto={foto} onDelete={handleDeleteFoto}/>}
       <View style={styles.buttonContainer}>
         <TouchableHighlight
           onPress={handleGuardarPressed}
-          
+          style={styles.touchableButton}
         >
           <View style={styles.button}>
             <Text style={styles.buttonText}>Guardar</Text>
@@ -132,6 +135,7 @@ const RecetaIngreso = ({
         </TouchableHighlight>
         <TouchableHighlight
           onPress={handleCamara}
+          style={styles.touchableButton}
         >
           <View style={styles.button}>
             <Text style={styles.buttonText}>Camara</Text>
@@ -140,7 +144,7 @@ const RecetaIngreso = ({
           
         </TouchableHighlight>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -148,13 +152,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: '5%',
+    padding:5,
   },
-  image: { 
-    width: 100, 
-    height: 150, 
-    borderWidth: 1, 
-    borderColor: 'red' }
-    ,
   input: {
     borderWidth: .5,
     fontSize: 15,
@@ -177,20 +176,21 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlignVertical: 'top'
   },
-
+  touchableButton:{
+    backgroundColor: 'black',
+    borderRadius: 15,
+    margin: 10,
+  },
   buttonContainer: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
   button: {
-    backgroundColor: 'black',
-    padding: 20,
+    padding: 15,
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
-    borderRadius: 15,
-    margin: 10,
   },
   buttonText: {
     color: 'white',

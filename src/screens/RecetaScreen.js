@@ -52,6 +52,11 @@ const RecetaScreen = ({navigation}) => {
     setShowCameraScreen(false);
   }
 
+
+  const handleDeleteFoto = () => {
+    setFoto(null)
+  }
+
   const handleSave = (image) => {
     setFoto(image)
     setShowRecetaInputScreen(true);
@@ -76,7 +81,9 @@ const RecetaScreen = ({navigation}) => {
       onDescripcionChanged={handleDescripcionChanged}
       foto={foto} 
       handleAfterGuardar={handleAfterGuardar} 
-      handleCamara={handleCamara}/>}
+      handleCamara={handleCamara}
+      handleDeleteFoto={handleDeleteFoto}
+      />}
       {showCameraScreen && <CameraComponent handleFotoPressed={handleFotoPressed}/>}
       {showCameraPreviewScreen && <CameraPreview image={fotoPreview} handleSave={handleSave} handleTakePictureAgain={handleTakePictureAgain}/>}
     </>
