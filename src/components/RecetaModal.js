@@ -20,9 +20,11 @@ const RecetaModal = ({ receta, closeModal }) => {
                 <Text style={styles.titulo}>{titulo}</Text>
               </View>
               <View style={styles.ingredientesContainer}>
+                <Text style={styles.label}>Ingredientes:</Text>
                 <Text style={styles.ingredientes}>{ingredientes}</Text>
               </View>
               <View style={styles.instruccionesContainer}>
+                <Text style={styles.label}>Instrucciones:</Text>
                 <Text style={styles.instrucciones}>{instrucciones}</Text>
               </View>
               {foto && 
@@ -53,19 +55,26 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   modalView: {
     marginHorizontal: 20,
     backgroundColor: 'lightgray',
     borderRadius: 20,
-    padding: 20,
     borderWidth: 1,
     alignItems: 'center'
   },
+  modalContainer:{
+    width:'80%'
+  },
+  label:{
+    fontSize:20,
+    fontStyle:'italic',
+    textDecorationLine:'underline'
+  },
   icono: {
-    width: 75,
-    height: 75
+    width: 100,
+    height: 100,
+    alignSelf:'center'
   },
   tituloContainer:{
     alignItems:'center',
@@ -78,17 +87,10 @@ const styles = StyleSheet.create({
   },
   ingredientesContainer: {
     marginVertical: 20,
-    alignSelf: 'flex-start'
-  },
-  instruccionesContainer: {
-    justifyContent: 'flex-start',
   },
   ingredientes: {
     fontSize: 23,
   },
-  modalContainer:{
-    marginHorizontal:'20%'
-  },  
   instrucciones: {
     fontSize: 20,
     fontStyle: 'italic',
@@ -103,14 +105,14 @@ const styles = StyleSheet.create({
   warning:{
     fontSize:20,
     marginVertical: 20,
+    textAlign:'center'
   },
   button: {
     backgroundColor: '#000',
-    padding: 20,
     borderWidth: 1,
     borderRadius: 20,
     marginVertical: 20,
-    width: '50%'
+    padding:15,
   },
   buttonText: {
     fontSize: 20,
