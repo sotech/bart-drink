@@ -16,7 +16,7 @@ const RecetaIngreso = ({
   idv,
   handleAfterGuardar, 
   handleCamara,
-  handleDeleteFoto
+  handleDeleteFoto,
   editMode
   }) => {
 
