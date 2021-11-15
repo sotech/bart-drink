@@ -70,11 +70,29 @@ const ClearRecetas = async() =>{
   await AsyncStorage.clear();
 }
 
+const ActualizarReceta = async(id,recetaNueva) =>{
+  const recetas = await ObtenerRecetas();
+  const newRecetas = recetas.map(receta => {
+    if(receta.id == id){
+      return {
+        titulo : recetaNueva.titulo,
+        ingredientes : recetaNueva.ingredientes,
+        instrucciones : recetaNueva.instrucciones,
+        foto : recetaNueva.foto,
+        id:receta.id
+      }
+    }else{
+      return receta
+    }
+  })
+  await GuardarRecetas(newRecetas)
+}
 export default {
   ObtenerRecetas,
   GuardarRecetas,
   GuardarReceta,
   ClearRecetas,
   ExisteReceta,
-  ObtenerRecetaAlAzar
+  ObtenerRecetaAlAzar,
+  ActualizarReceta
 };
