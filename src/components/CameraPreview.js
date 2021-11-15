@@ -4,7 +4,7 @@ import { Entypo } from '@expo/vector-icons';
 
 const CameraPreview = ({ image, handleSave, handleTakePictureAgain}) => {
   const handleSaveFoto= ()=>{
-    handleSave(image)
+    handleSave(image.uri)
   }
   return(
     <View style={styles.container}>

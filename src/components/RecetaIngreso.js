@@ -6,35 +6,41 @@ import { Entypo } from '@expo/vector-icons';
 import FotoPreview from '../components/FotoPreview'
 
 const RecetaIngreso = ({
-  titulo,
+  titulov,
   onTituloChanged,
-  ingredientes,
+  ingredientesv,
   onIngredientesChanged,
-  instrucciones,
+  instruccionesv,
   onDescripcionChanged,
-  foto, 
+  fotov,
+  idv,
   handleAfterGuardar, 
   handleCamara,
   handleDeleteFoto
+  editMode
   }) => {
+
   //Mensajes para las validaciones
   const [ingredientesRequerido, setIngredientesRequerido] = useState(false)
   const [tituloRequerido, setTituloRequerido] = useState(false)
   const [tituloExistente, setTituloExistente] = useState(false)
-
   const handleGuardarPressed = async () => {
     const valido = await validarCampos()
     if (!valido)
       return;
 
     const recetaData = {
-      titulo: titulo,
-      ingredientes: ingredientes,
-      instrucciones: instrucciones,
+      titulo: titulov,
+      ingredientes: ingredientesv,
+      instrucciones: instruccionesv,
       id: uuid.v4(),
-      foto: foto?.uri || null
+      foto: fotov || null
     }
-    await RecetasAPI.GuardarReceta(recetaData)
+    if(editMode){
+      await RecetasAPI.ActualizarReceta(idv,recetaData)
+    }else{
+      await RecetasAPI.GuardarReceta(recetaData)
+    }
     handleAfterGuardar()
     showGuardadoToast()
   }
@@ -54,12 +60,13 @@ const RecetaIngreso = ({
     setTituloRequerido(false)
     setTituloExistente(false)
     let valido = true;
-    if (titulo == '') {
+    if (titulov == '') {
       setTituloRequerido(true)
       valido = false
     } else {
-      //Hay titulo. Verificar que el titulo no exista
-      if (await RecetasAPI.ExisteReceta(titulo)) {
+      //Hay titulo. 
+      //Si es modo edicion, ignorar, sino verificar que el titulo no exista
+      if (!editMode && await RecetasAPI.ExisteReceta(titulov)) {
         setTituloExistente(true)
         valido = false
       }
@@ -70,7 +77,7 @@ const RecetaIngreso = ({
   const validarIngredientes = () => {
     setIngredientesRequerido(false)
     let valido = true
-    if (ingredientes == '') {
+    if (ingredientesv == '') {
       setIngredientesRequerido(true)
       valido = false
     }
@@ -84,25 +91,31 @@ const RecetaIngreso = ({
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.versionText}>Titulo</Text>
-      <TextInput
-        autoFocus={true}
-        maxLength={25}
-        placeholder={'Ingrese titulo'}
-        value={titulo}
-        onChangeText={onTituloChanged}
-        style={styles.input}
-      />
-      {tituloRequerido &&
-        <Text style={styles.warning}>Debe ingresar un titulo</Text>
-      }
-      {tituloExistente &&
-        <Text style={styles.warning}>Ya existe una receta con ese nombre</Text>
+      {editMode ? 
+        <Text style={styles.tituloText}>{titulov}</Text> : 
+        (<>
+          <TextInput
+            autoFocus={true}
+            maxLength={25}
+            placeholder={'Ingrese titulo'}
+            value={titulov}
+            onChangeText={onTituloChanged}
+            style={styles.input}
+            />
+          {tituloRequerido &&
+            <Text style={styles.warning}>Debe ingresar un titulo</Text>
+          }
+          {tituloExistente &&
+            <Text style={styles.warning}>Ya existe una receta con ese nombre</Text>
+          }
+          </>
+        )
       }
       <Text style={styles.versionText}>Ingredientes</Text>
       <TextInput
         autoCapitalize={'sentences'}
         placeholder={'Ingrese ingredientes'}
-        value={ingredientes}
+        value={ingredientesv}
         multiline
         numberOfLines={8}
         onChangeText={onIngredientesChanged}
@@ -115,7 +128,7 @@ const RecetaIngreso = ({
       <TextInput
         autoCapitalize={'sentences'}
         placeholder={'Ingrese instrucciones'}
-        value={instrucciones}
+        value={instruccionesv}
         multiline
         numberOfLines={20}
         onChangeText={onDescripcionChanged}
@@ -154,6 +167,17 @@ const styles = StyleSheet.create({
     marginHorizontal: '5%',
     padding:5,
   },
+  tituloText:{
+    fontSize:20,
+    fontWeight:'bold',
+    textAlign:'center'
+  },
+  image: { 
+    width: 100, 
+    height: 150, 
+    borderWidth: 1, 
+    borderColor: 'red' }
+    ,
   input: {
     borderWidth: .5,
     fontSize: 15,

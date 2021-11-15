@@ -1,12 +1,12 @@
 //Para el ingreso de una receta en particular
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RecetaIngreso from '../components/RecetaIngreso';
 import CameraComponent from '../components/CameraComponent';
 import CameraPreview from '../components/CameraPreview';
 
 import Screens from '../utils/Screens';
 
-const RecetaScreen = ({navigation}) => {
+const RecetaScreen = ({navigation,route}) => {
   //Crear variable para la foto 
   //Crear variables para mostrar las pantallas
   const [showRecetaInputScreen, setShowRecetaInputScreen] = useState(true)
@@ -18,7 +18,21 @@ const RecetaScreen = ({navigation}) => {
   const [titulo, setTitulo] = useState('')
   const [ingredientes, setIngredientes] = useState('')
   const [instrucciones, setInstrucciones] = useState('')
-    
+  const [editMode, setEditMode] = useState(false)
+  const [id,setId] = useState('')
+  useEffect(()=>{
+    setUpRecetaParams()
+  },[])
+
+  const setUpRecetaParams = () => {
+    setTitulo(route?.params?.receta?.titulo)
+    setIngredientes(route?.params?.receta?.ingredientes)
+    setInstrucciones(route?.params?.receta?.instrucciones)
+    setFoto(route?.params?.receta?.foto)
+    setId(route?.params?.receta?.id)
+    setEditMode(route?.params?.editMode)
+  }
+
   const handleTituloChanged = (textoIngresado) => {
     setTitulo(textoIngresado)
   }
@@ -73,17 +87,20 @@ const RecetaScreen = ({navigation}) => {
   return (
     <>
       {showRecetaInputScreen && <RecetaIngreso 
-      titulo={titulo}
+      titulov={titulo}
       onTituloChanged={handleTituloChanged}
-      ingredientes={ingredientes}
+      ingredientesv={ingredientes}
       onIngredientesChanged={handleIngredientesChanged}
-      instrucciones={instrucciones}
+      instruccionesv={instrucciones}
       onDescripcionChanged={handleDescripcionChanged}
-      foto={foto} 
+      fotov={foto} 
       handleAfterGuardar={handleAfterGuardar} 
       handleCamara={handleCamara}
       handleDeleteFoto={handleDeleteFoto}
-      />}
+      editMode={editMode}
+      idv={id}
+      />
+      }
       {showCameraScreen && <CameraComponent handleFotoPressed={handleFotoPressed}/>}
       {showCameraPreviewScreen && <CameraPreview image={fotoPreview} handleSave={handleSave} handleTakePictureAgain={handleTakePictureAgain}/>}
     </>
