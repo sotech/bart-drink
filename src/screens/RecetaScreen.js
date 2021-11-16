@@ -1,163 +1,110 @@
 //Para el ingreso de una receta en particular
-import React,{useState} from 'react';
-import {Text,StyleSheet,View, TextInput, TouchableHighlight} from 'react-native';
-import RecetasAPI from '../utils/RecetasAPI';
+import React, { useEffect, useState } from 'react';
+import RecetaIngreso from '../components/RecetaIngreso';
+import CameraComponent from '../components/CameraComponent';
+import CameraPreview from '../components/CameraPreview';
 
+import Screens from '../utils/Screens';
 
-const RecetaScreen = () => {
-  const [instrucciones, setInstrucciones]=useState('')
-  const [ingredientes, setIngredientes]=useState('')
-  const [ingredientesRequerido, setIngredientesRequerido] = useState(false)
-  const [titulo, setTitulo]=useState('')
-  const [tituloRequerido, setTituloRequerido] = useState(false)
-  //Funcion para usar con el boton guardar
-  const handleTituloChanged = (textoIngresado) => {
-    //Actualizar el titulo state
-    setTitulo(textoIngresado)
-    
+const RecetaScreen = ({navigation,route}) => {
+  //Crear variable para la foto 
+  //Crear variables para mostrar las pantallas
+  const [showRecetaInputScreen, setShowRecetaInputScreen] = useState(true)
+  const [showCameraScreen, setShowCameraScreen] = useState(false)
+  const [showCameraPreviewScreen, setShowCameraPreviewScreen] = useState(false)
+  
+  const [fotoPreview,setFotoPreview] = useState(null);
+  const [foto,setFoto] = useState(null);
+  const [titulo, setTitulo] = useState('')
+  const [ingredientes, setIngredientes] = useState('')
+  const [instrucciones, setInstrucciones] = useState('')
+  const [editMode, setEditMode] = useState(false)
+  const [id,setId] = useState('')
+  useEffect(()=>{
+    setUpRecetaParams()
+  },[])
+
+  const setUpRecetaParams = () => {
+    setTitulo(route?.params?.receta?.titulo)
+    setIngredientes(route?.params?.receta?.ingredientes)
+    setInstrucciones(route?.params?.receta?.instrucciones)
+    setFoto(route?.params?.receta?.foto)
+    setId(route?.params?.receta?.id)
+    setEditMode(route?.params?.editMode)
   }
 
-  const handleIngredientesChanged = (textoIngresado) => {
-    setIngredientes(textoIngresado)
-    //Actualizar el Ingredientes state
+  const handleTituloChanged = (textoIngresado) => {
+    setTitulo(textoIngresado)
   }
 
   const handleDescripcionChanged = (textoIngresado) => {
     //Actualizar el Descripcion state
     setInstrucciones(textoIngresado)
   }
-
-  const handleGuardarPressed = async() => {
-    const recetaData ={
-      titulo:titulo,
-      ingredientes:ingredientes,
-      instrucciones:instrucciones,
-    }  //Obtener la data de los states
-    //Verificar que haya titulo e ingredientes
-    let faltanCampos = false
-    if(titulo == ''){
-      setTituloRequerido(true)
-      faltanCampos = true
-    }else{
-      setTituloRequerido(false)
-    }
-    if(ingredientes == ''){
-      setIngredientesRequerido(true)
-      faltanCampos = true
-    }else{
-      setIngredientesRequerido(false)
-    }
-    if(faltanCampos){
-      alert('Faltan campos por completar')
-      return
-    }
-    await RecetasAPI.GuardarReceta(recetaData)
-    reiniciarCampos()
-    alert('receta guardada') //Cambiar luego este alert por un Toast
+  
+  const handleIngredientesChanged = (textoIngresado) => {
+    setIngredientes(textoIngresado)
+    //Actualizar el Ingredientes state
   }
 
-  const reiniciarCampos=()=>{
-    setTitulo('')
-    setIngredientes('')
-    setInstrucciones('')
+  const handleAfterGuardar = () => {
+    navigation.navigate(Screens.RECETAS)
   }
-  return(
+  
+  const handleCamara = () => {
+    //Al presionar la camara, cambiar de pantallas a la camara
+    setShowRecetaInputScreen(false);
+    setShowCameraPreviewScreen(false);
+    setShowCameraScreen(true);
+  }
 
-    <View style={styles.container}>
-      <Text style={styles.versionText}>Titulo</Text>
-      <TextInput 
-      autoCapitalize={'sentences'}
-      autoFocus={true}
-      maxLength={25}
-      placeholder={'Ingrese titulo'}
-      value={titulo}
-      onChangeText={handleTituloChanged}
-      style={styles.input}
+  const handleFotoPressed = (foto) => {
+    //Al tomar la foto, cambiar a la preview
+    setFotoPreview(foto);
+    setShowRecetaInputScreen(false);
+    setShowCameraPreviewScreen(true);
+    setShowCameraScreen(false);
+  }
+
+
+  const handleDeleteFoto = () => {
+    setFoto(null)
+  }
+
+  const handleSave = (image) => {
+    setFoto(image)
+    setShowRecetaInputScreen(true);
+    setShowCameraPreviewScreen(false);
+    setShowCameraScreen(false);
+  }
+
+  const handleTakePictureAgain = () => {
+    setShowRecetaInputScreen(false);
+    setShowCameraPreviewScreen(false);
+    setShowCameraScreen(true);
+  }
+
+  return (
+    <>
+      {showRecetaInputScreen && <RecetaIngreso 
+      titulov={titulo}
+      onTituloChanged={handleTituloChanged}
+      ingredientesv={ingredientes}
+      onIngredientesChanged={handleIngredientesChanged}
+      instruccionesv={instrucciones}
+      onDescripcionChanged={handleDescripcionChanged}
+      fotov={foto} 
+      handleAfterGuardar={handleAfterGuardar} 
+      handleCamara={handleCamara}
+      handleDeleteFoto={handleDeleteFoto}
+      editMode={editMode}
+      idv={id}
       />
-      {tituloRequerido &&
-        <Text style={styles.warning}>Debe ingresar un titulo</Text>
       }
-      <Text style={styles.versionText}>Ingredientes</Text>
-      <TextInput 
-      autoCapitalize={'sentences'}
-      placeholder={'Ingrese ingredientes'}
-      value={ingredientes}
-      multiline 
-      numberOfLines={8}
-      onChangeText={handleIngredientesChanged}
-      style={styles.inputXl}
-      />
-      {ingredientesRequerido &&
-        <Text style={styles.warning}>Debe ingresar ingredientes</Text>
-      }
-      <Text style={styles.versionText}>Instrucciones</Text>
-      <TextInput 
-      autoCapitalize={'sentences'}
-      placeholder={'Ingrese instrucciones'}
-      value={instrucciones}
-      multiline 
-      numberOfLines={20}
-      onChangeText={handleDescripcionChanged}
-      style={styles.inputXl}
-      />
-      <View style={styles.buttonContainer}>
-      <TouchableHighlight
-      onPress={handleGuardarPressed}
-      style={styles.button}
-      >
-        <Text style={styles.buttonText}>Guardar</Text>
-      </TouchableHighlight>
-      </View>
-    </View>
+      {showCameraScreen && <CameraComponent handleFotoPressed={handleFotoPressed}/>}
+      {showCameraPreviewScreen && <CameraPreview image={fotoPreview} handleSave={handleSave} handleTakePictureAgain={handleTakePictureAgain}/>}
+    </>
   )
 }
-
-const styles = StyleSheet.create({
-  container:{
-    flex: 1,
-    marginHorizontal: '5%',
-  },
-  input:{
-    borderWidth:.5,
-    fontSize: 15,
-    padding: 10,
-    margin:10,
-    backgroundColor:'lightgray',
-    color:'black'
-  },
-  warning:{
-    color:'red'
-  },  
-  inputXl:{
-    borderWidth:.5,
-    fontSize: 15,
-    padding: 10,
-    margin:10,
-    height:100,
-    backgroundColor:'lightgray',
-    color:'black'
-  },
-  
-  buttonContainer:{
-    flex:1,
-    justifyContent:'flex-start',
-    alignItems:'center'
-  },
-  button:{
-    backgroundColor:'black',
-    padding:15,
-    width:'30%',
-    borderRadius:15,
-    margin:10,
-  },
-  buttonText:{
-    color:'white',
-    fontSize:20,
-    textAlign:'center'
-  },
-  versionText:{
-    fontSize:20,
-  }
-});
 
 export default RecetaScreen
