@@ -18,9 +18,11 @@ const RecetasScreen = ({ navigation }) => {
     }, [])
   );
 
-  useEffect(()=>{
-    filterRecetas()
-  },[search])
+  useFocusEffect(
+    React.useCallback(() => {
+      PopulateRecetas();
+    }, [])
+  );
 
   useEffect(()=>{
     setFilteredRecetas(recetas)
