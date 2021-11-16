@@ -17,6 +17,17 @@ const ObtenerRecetas = async() =>{
 }
 
 /**
+ * Devuelve un true o false, dependiendo si el titulo de una receta ya esta guardado
+ *
+ * @param {string} titulo
+ * @returns {boolean} existe
+ */
+const ExisteReceta = async(titulo) => {
+  const recetas = await ObtenerRecetas();
+  const tituloMatch = (receta) => receta.titulo == titulo;
+  return recetas.some(tituloMatch)
+}
+/**
  * Toma una lista de recetas y las guarda dentro de memoria del telefono, reemplazando la lista anterior
  *
  * @param {Array} Recetas
@@ -36,7 +47,19 @@ const GuardarReceta = async(receta) =>{
   let recetas = await ObtenerRecetas();
   //Deberia haber alguna validacion aqui
   recetas.push(receta)
-  GuardarRecetas(recetas)
+  await GuardarRecetas(recetas)
+}
+
+/**
+ *Devuelve una receta al azar, sino devuelve null
+ *
+ */
+const ObtenerRecetaAlAzar = async() => {
+  const recetas = await ObtenerRecetas()
+  if(recetas.length > 0){
+    return recetas[Math.floor(Math.random() * (recetas.length))]
+  }
+  return null
 }
 
 /**
@@ -47,9 +70,29 @@ const ClearRecetas = async() =>{
   await AsyncStorage.clear();
 }
 
+const ActualizarReceta = async(id,recetaNueva) =>{
+  const recetas = await ObtenerRecetas();
+  const newRecetas = recetas.map(receta => {
+    if(receta.id == id){
+      return {
+        titulo : recetaNueva.titulo,
+        ingredientes : recetaNueva.ingredientes,
+        instrucciones : recetaNueva.instrucciones,
+        foto : recetaNueva.foto,
+        id:receta.id
+      }
+    }else{
+      return receta
+    }
+  })
+  await GuardarRecetas(newRecetas)
+}
 export default {
   ObtenerRecetas,
   GuardarRecetas,
   GuardarReceta,
-  ClearRecetas
+  ClearRecetas,
+  ExisteReceta,
+  ObtenerRecetaAlAzar,
+  ActualizarReceta
 };

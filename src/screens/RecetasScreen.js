@@ -1,12 +1,22 @@
-import React,{useState} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { Text, View, TextInput, TouchableOpacity, ScrollView, StyleSheet} from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, ScrollView, StyleSheet, ToastAndroid } from 'react-native';
 import Receta from '../components/Receta';
 import RecetasAPI from '../utils/RecetasAPI';
 import Screens from '../utils/Screens';
+import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
-const RecetasScreen = ({navigation}) => {
-  const [recetas,setRecetas] = useState([]);
+const RecetasScreen = ({ navigation }) => {
+  const [recetas, setRecetas] = useState([]);
+  const [filteredRecetas,setFilteredRecetas] = useState([]);
+  const [search,setSearch] = useState('')
+  const searchInput = useRef(null)
+  useFocusEffect(
+    React.useCallback(() => {
+      PopulateRecetas();
+    }, [])
+  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -14,36 +24,97 @@ const RecetasScreen = ({navigation}) => {
     }, [])
   );
 
-  const PopulateRecetas = async() => {
-    const recetasData = await RecetasAPI.ObtenerRecetas()
-    setRecetas(recetasData);
+  useEffect(()=>{
+    setFilteredRecetas(recetas)
+  },[recetas])
+  
+  const handleSearchChange = (text) =>{
+    setSearch(text)
   }
 
-  const handleAgregarReceta = async() => {
+  const filterRecetas = () => {
+    if(search == ''){
+      setFilteredRecetas(recetas)
+    }else{
+      const newRecetas = recetas.filter(receta => {
+        const resultado = receta.titulo.toUpperCase().includes(search.toUpperCase())
+        return resultado
+      })
+      setFilteredRecetas(newRecetas)
+    }
+  }
+
+  const PopulateRecetas = async () => {
+    const recetasData = await RecetasAPI.ObtenerRecetas()
+    setRecetas(recetasData);
+    setFilteredRecetas(recetasData)
+  }
+
+  const handleAgregarReceta = () => {
     navigation.navigate(Screens.RECETA)
   }
 
-  return(
+  const handleEditarReceta = (recetaData) =>{
+    navigation.navigate(Screens.RECETA,{receta:recetaData, editMode:true})
+  }
+  const handleSearchRecetas = (data) => {
+    //El componente Search devuelve el array modificado para setearse
+    setRecetas(data)
+  }
+
+  const handleDelete = async (key) => {
+    const newRecetas = recetas.filter(receta => receta && receta.titulo !== key)
+    await RecetasAPI.GuardarRecetas(newRecetas);
+    setRecetas(await RecetasAPI.ObtenerRecetas());
+    //Comentar el toast si se trabaja en la version web, sino la app crashea
+    ToastAndroid.show(`${key} borrado exitosamente.`, ToastAndroid.SHORT);
+    //console.log(`${key} borrado exitosamente.`)
+  }
+
+  console.log(filteredRecetas)
+  return (
     <View style={styles.container}>
       <View style={styles.recetasContainer}>
+        <View style={styles.searchContainer}>
+          <TextInput
+          placeholder={'Buscar recetas'}
+          value={search}
+          onChangeText={handleSearchChange}
+          ref={searchInput}
+          />
+          <TouchableOpacity
+          onPress={()=>{
+            searchInput.current.focus()
+          }}>
+            <FontAwesome name="search" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
         <ScrollView style={styles.recetasScrollContainer}>
-          {recetas.map(r => {
-            return <Receta 
-            key={r.titulo} 
-            titulo={r.titulo} 
-            ingredientes={r.ingredientes}
-            instrucciones={r.instrucciones}
-            />
+          {filteredRecetas.map(r => {
+            if(r){
+              return <TouchableOpacity
+              key={r.titulo}
+              onPress={()=>{handleEditarReceta(r)}}>
+                <Receta
+                  titulo={r.titulo}
+                  ingredientes={r.ingredientes}
+                  instrucciones={r.instrucciones}
+                  foto={r.foto}
+                  borrar={handleDelete}
+                />
+              </TouchableOpacity>
+            }
           })}
         </ScrollView>
       </View>
       <View style={styles.menuContainer}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={handleAgregarReceta}  
+            onPress={handleAgregarReceta}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Agregar Receta</Text>
+            <AntDesign name="pluscircle" size={24} color="white" />
           </TouchableOpacity>
         </View>
       </View>
@@ -52,29 +123,40 @@ const RecetasScreen = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
+  container: {
+    flex: 1,
   },
-  menuContainer:{
-    flex:1,
-    justifyContent:'center',
+  menuContainer: {
+    flex: 1,
+    justifyContent: 'center',
     marginHorizontal: '5%',
   },
-  recetasContainer:{
-    flex:2,
-    marginHorizontal:'5%',
+  searchContainer:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    margin:5,
+    padding:7,
+    backgroundColor:'lightgray',
+    borderRadius:20
   },
-  button:{
-    padding:20,
-    marginHorizontal:30,
-    marginVertical:5,
-    backgroundColor:'black',
-    alignItems:'center'
+  recetasContainer: {
+    flex: 2,
+    marginHorizontal: '5%',
   },
-  buttonText:{
-    color:'white',
-    fontWeight:'bold',
-    fontSize:20,
+  button: {
+    padding: 20,
+    marginHorizontal: 30,
+    marginVertical: 5,
+    backgroundColor: 'black',
+    flexDirection:'row',
+    justifyContent:'space-around',
+    alignItems:'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
   }
 })
 export default RecetasScreen;
