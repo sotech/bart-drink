@@ -28,6 +28,10 @@ const RecetasScreen = ({ navigation }) => {
     setFilteredRecetas(recetas)
   },[recetas])
   
+  useEffect(()=>{
+    filterRecetas()
+  },[search])
+  
   const handleSearchChange = (text) =>{
     setSearch(text)
   }
@@ -71,7 +75,6 @@ const RecetasScreen = ({ navigation }) => {
     //console.log(`${key} borrado exitosamente.`)
   }
 
-  console.log(filteredRecetas)
   return (
     <View style={styles.container}>
       <View style={styles.recetasContainer}>
